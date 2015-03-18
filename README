@@ -1,0 +1,9 @@
+Look into your resolv.conf and add to rc.local route to make route to allow dns if needed. Activate ip fowarding and masquerading if wanted:
+
+/sbin/route add -host 8.8.8.8 gw 10.10.1.1
+/sbin/iptables -A POSTROUTING -j MASQUERADE -t nat
+echo 1 >/proc/sys/net/ipv4/ip_forward
+
+Add to your crontab:
+
+0 * * * * /etc/openvpn/ResolvDns.sh meisterschule.vpn.priv.de 10.10.1.1
