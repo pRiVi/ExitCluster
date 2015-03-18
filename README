@@ -1,9 +1,12 @@
 Look into your resolv.conf and add to rc.local route to make route to allow dns if needed. Activate ip fowarding and masquerading if wanted:
 
-/sbin/route add -host 8.8.8.8 gw 10.10.1.1
+/sbin/route add -host 8.8.8.8 gw DEFAULTGW
 /sbin/iptables -A POSTROUTING -j MASQUERADE -t nat
 echo 1 >/proc/sys/net/ipv4/ip_forward
+# Or edit /etc/sysctl.conf and reboot
 
 Add to your crontab:
 
-0 * * * * /etc/openvpn/ResolvDns.sh meisterschule.vpn.priv.de 10.10.1.1
+0 * * * * /etc/openvpn/ResolvDns.sh meisterschule.vpn.priv.de DEFAULTGW
+
+Copy vpn.priv.de.conf, ResolvDns.sh and certificates into /etc/openvpn/. Edit /etc/default/openvpn to start vpn on statup. Reboot. Done.
