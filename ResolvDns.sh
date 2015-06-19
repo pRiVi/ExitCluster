@@ -1,15 +1,15 @@
 #!/bin/sh
 if [[ "$1" == "" ]]; then
    echo "ERROR: You have to give an hostname!";
-   echo "Syntax: $0 HOSTNAME [GATEWAY] [DNS] [FAKEHOSTNAME]";
+   echo "Syntax: $0 HOSTNAME [DNS] [GATEWAY] [FAKEHOSTNAME]";
    exit 1;
 else 
    export HOST=$1;
 fi
-if [[ "$2" == "" ]]; then
+if [[ "$3" == "" ]]; then
    export GW=`route -n|sed -e 's/0.0.0.0 \{1,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\) \{1,\}0.0.0.0.*/\1/p' -e 'd'`
 else
-   export GW=$2
+   export GW=$3
 fi
 if [[ "$GW" == "" ]]; then
    export GW=`cat /tmp/cur.gw`
@@ -17,15 +17,15 @@ else
    echo $GW >/tmp/cur.gw
 fi
 
-if [[ "$3" == "" ]]; then
+if [[ "$2" == "" ]]; then
    export DNS=8.8.8.8
 else
-   export DNS=$3
+   export DNS=$2
 fi
 if [[ "$4" == "" ]]; then
    export FAKEHOSTNAME=vpn.service
 else
-   export FAKEHOSTNAME=$3
+   export FAKEHOSTNAME=$4
 fi
 
 if [[ "$GW" == "" ]]; then
