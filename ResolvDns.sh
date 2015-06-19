@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [[ "$1" == "" ]]; then
    echo "ERROR: You have to give an hostname!";
    echo "Syntax: $0 HOSTNAME [GATEWAY] [DNS] [FAKEHOSTNAME]";
@@ -33,9 +33,10 @@ if [[ "$GW" == "" ]]; then
    exit 2;
 else
    echo "GW=$GW DNS=$DNS HOST=$HOST";
+   echo route add -host $DNS gw $GW;
    route add -host $DNS gw $GW;
 fi
-export DSTIP=`nslookup $HOST $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\)/\1/p' -e 'd'`
+export DSTIP=`nslookup $HOST $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
 if [[ "$DSTIP" == "" ]]; then 
    echo Could not determine dst ip!;
 else 
