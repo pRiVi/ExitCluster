@@ -1,5 +1,3 @@
-How to install?
-
 Currently support for debian (x86/arm) and OpenWRT.
 
 1. Configure your System to be able to access the internet, at best via DHCP. PPPOE is supported.
