@@ -43,6 +43,8 @@ If you want or must created an tar.gz of your own, so see below 7a) to 7h). Othe
 
 For creation of the OpenVPN tar.gz you need enough space on your OpenWRT to be able to create a installation you can copy. Cause you donnot have enough space on your system, you must use space from a remote system. This is possible via NFS. Cause you have not enouth space to install the NFS on your system, you have to install this via a trick to work around this.
 
+You must be able to install a NFS server by yourself, this documentation do not cover that. Google might help you with "nfs howto".
+
 7a) Store the nfs userspace tool (mount.nfs) on external storage.
 
 You can jump to 7b, if you already have copied the files mentioned.
