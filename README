@@ -1,8 +1,12 @@
 Currently support for debian (x86/arm) and OpenWRT.
 
-1. Configure your System to be able to access the internet, at best via DHCP. PPPOE is unsupported.
+1. Base config
 
-2. Copy ResolvDns.sh to your TP-Link to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
+Configure your System to be able to access the internet, at best via DHCP. PPPOE is unsupported.
+
+2. Install needed files
+
+Copy ResolvDns.sh to your TP-Link to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
 
 # /etc/init.d/cron enable
 
