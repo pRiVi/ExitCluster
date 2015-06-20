@@ -48,7 +48,7 @@ if [[ "$GW" == "" ]]; then
    exit 2;
 else
    echo "GW=$GW DNS=$DNS HOST=$HOST";
-   for i in $DNS 0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org do
+   for i in $DNS 0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org; do
       route add -host $DNS gw $GW;
    done
 fi
