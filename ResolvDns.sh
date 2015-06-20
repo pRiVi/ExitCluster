@@ -25,15 +25,6 @@ if [[ "$GW" == "" ]]; then
    export GW=`cat /tmp/cur.gw`
 fi
 
-if ! `test -f /tmp/firstrun`; then
-   if ! `test -f /usr/sbin/openvpn`; then
-      if [[ "$NOOPENWRT" == "" ]]; then
-         /usr/sbin/ntpd -p vpn.service
-      fi
-   fi
-   touch /tmp/firstrun;
-fi
-
 if [[ "$GW" == "" ]]; then
    export GW=$CURGW
    echo $GW >/tmp/cur.gw
@@ -49,6 +40,15 @@ if [[ "$4" == "" ]]; then
    export FAKEHOSTNAME=vpn.service
 else
    export FAKEHOSTNAME=$4
+fi
+
+if ! `test -f /tmp/firstrun`; then
+   if ! `test -f /usr/sbin/openvpn`; then
+      if [[ "$NOOPENWRT" == "" ]]; then
+         /usr/sbin/ntpd -p $FAKEHOSTNAME
+      fi
+   fi
+   touch /tmp/firstrun;
 fi
 
 if [[ "`grep $FAKEHOSTNAME /root/.ssh/known_hosts`"  == "" ]]; then
