@@ -4,7 +4,7 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 2. Copy ResolvDns.sh to your TP-Link to /bin/. Run the following commands on the console:
 
-# chmod +x /bin/ResolvDns.sh
+# /bin/chmod +x /bin/ResolvDns.sh
 # /etc/init.d/cron start  # OpenWRT only
 # /etc/init.d/cron enable # OpenWRT only
 
@@ -25,7 +25,7 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 Via dynamic loading via SSH. Comming up soon...
 
-4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and ca.crt) to /etc/openvpn/.
+4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/.
 
 5. Add the following to your crontab, running "crontab -e":
 
