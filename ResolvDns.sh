@@ -6,17 +6,19 @@ if [[ "$1" == "" ]]; then
 else 
    export HOST=$1;
 fi
+export CURGW=`route -n|sed -e 's/0.0.0.0 \{1,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\) \{1,\}0.0.0.0.*/\1/p' -e 'd'`
 if [[ "$3" == "" ]]; then
-   export GW=`route -n|sed -e 's/0.0.0.0 \{1,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\) \{1,\}0.0.0.0.*/\1/p' -e 'd'`
+   /bin/true;
 else
    export GW=$3
 fi
 if [[ "$GW" == "" ]]; then
    export GW=`cat /tmp/cur.gw`
-else
+fi
+if [[ "$GW" == "" ]]; then
+   export GW=$CURGW
    echo $GW >/tmp/cur.gw
 fi
-
 if [[ "$2" == "" ]]; then
    export DNS=8.8.8.8
 else
@@ -45,6 +47,8 @@ else
    echo $DSTIP $FAKEHOSTNAME >>/etc/hosts.new;
    mv /etc/hosts.new /etc/hosts;
    route add -host $DSTIP gw $GW
-   route delete default
+   if [[ "$CURGW" == "$GW" ]] then
+      route delete default
+   fi
 fi
 
