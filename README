@@ -27,11 +27,11 @@ You have to enable autostart in /etc/default/openvpn.
 
 - With Flash < 8 MB:
 
-With 4 MB Flash you do not have enough persistent space on your device to run OpenVPN, so you have to download it dynamically from your local LAN or Internet to your absconding RAM. All for this has been already integrated into ResolvDns.sh if you are using OpenWRT 14.07, it should by itself download OpenVPN from the VPN server dynamically if you have not installed by yourself as described above.
+With 4 MB Flash you do not have enough persistent space on your device to store OpenVPN on it, so you have to download it dynamically from your local LAN or Internet to your absconding RAM. All for this has been already integrated into ResolvDns.sh if you are using OpenWRT 14.07, it should by itself download OpenVPN from the VPN server dynamically if you have not installed by yourself as described above.
 
 If you want or must created an tar.gz of your own, so see below 7a) to 7h). Otherwise you can use our 14.07 unchanged.
 
-4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/.
+4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/. Create the folder it it do not exists with "mkdir /etc/openvpn".
 
 5. Add the following to your crontab, running "crontab -e". You can find YOURTOLDVPNHOSTNAME it in your vpn.priv.de.conf file in the first line.
 
