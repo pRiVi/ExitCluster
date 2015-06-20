@@ -85,7 +85,7 @@ else
    if [[ "$NOOPENWRT" == "" ]]; then
       if ! `test -f /usr/sbin/openvpn`; then
          cd /tmp;
-         for i in `/usr/bin/ssh -T -i /etc/openvpnkey dynloader@vpn.service |/bin/tar -xzvf -`; do
+         for i in `/usr/bin/ssh -T -i /etc/openvpnkey dynloader@$FAKEHOSTNAME |/bin/tar -xzvf -`; do
             if ! `test -d /$i`; then
                echo $i;
                if ! `test -L /$i`; then
