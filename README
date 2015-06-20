@@ -2,7 +2,7 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 1. Base config
 
-Configure your System to be able to access the internet, at best via DHCP.
+Configure your system to be able to access the internet, at best via DHCP.
 
 2. Install needed files
 
