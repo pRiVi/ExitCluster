@@ -37,6 +37,8 @@ If you want or must created an tar.gz of your own, so see below 7a) to 7h). Othe
 
 * * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
 
+WARNING: Be sure you have the correct time on your system, if not, the certification checks will fail and there will be no tunnel!
+
 6. Reboot & Enjoy.
 
 ### Creation of tar.gz for dynamic loading of OpenVPN ###
