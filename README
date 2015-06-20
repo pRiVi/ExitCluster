@@ -1,12 +1,37 @@
-Look into your resolv.conf and add to rc.local route to make route to allow dns if needed. Activate ip fowarding and masquerading if wanted:
+How to install?
 
-/sbin/route add -host 8.8.8.8 gw DEFAULTGW
-/sbin/iptables -A POSTROUTING -j MASQUERADE -t nat
-echo 1 >/proc/sys/net/ipv4/ip_forward
-# Or edit /etc/sysctl.conf and reboot
+Currently support for debian (x86/arm) and OpenWRT.
 
-Add to your crontab:
+1. Configure your System to be able to access the internet, at best via DHCP. PPPOE is supported.
 
-0 * * * * /etc/openvpn/ResolvDns.sh meisterschule.vpn.priv.de DEFAULTGW
+2. Copy ResolvDns.sh to your TP-Link to /bin/. Run the following commands on the console:
 
-Copy vpn.priv.de.conf, ResolvDns.sh and certificates into /etc/openvpn/. Edit /etc/default/openvpn to start vpn on statup. Reboot. Done.
+# chmod +x /bin/ResolvDns.sh
+# /etc/init.d/cron start  # OpenWRT only
+# /etc/init.d/cron enable # OpenWRT only
+
+3. Installation of OpenVPN
+
+3a) Debian:
+
+# apt-get install openvpn
+
+3b) OpenWRT
+
+- With ROM > 4 MB:
+
+# opkg update
+# opkg install openvpn
+
+- With ROM < 4 MB:
+
+Via dynamic loading via SSH. Comming up soon...
+
+4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and ca.crt) to /etc/openvpn/.
+
+5. Add the following to your crontab, running "crontab -e":
+
+* * * * * /bin/ResolvDns.sh YOURVPNHOSTNAME
+
+5. Reboot & Enjoy.
+
