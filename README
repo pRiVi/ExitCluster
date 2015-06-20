@@ -4,6 +4,8 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 Configure your system to be able to access the internet, at best via DHCP.
 
+WARNING: Be sure you have the correct time on your system, if not, the certification checks will fail and there will be no tunnel! Enable NTP or have a OpenWRT Hardware with battery able to store the time. By default OpenWRT has NTP configured, so this should not be here not a problem.
+
 2. Install needed files
 
 Copy ResolvDns.sh on your system to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
@@ -36,8 +38,6 @@ If you want or must created an tar.gz of your own, so see below 7a) to 7h). Othe
 5. Add the following to your crontab, running "crontab -e". You can find YOURTOLDVPNHOSTNAME it in your vpn.priv.de.conf file in the first line.
 
 * * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
-
-WARNING: Be sure you have the correct time on your system, if not, the certification checks will fail and there will be no tunnel!
 
 6. Reboot & Enjoy.
 
