@@ -59,9 +59,6 @@ else
    echo $DSTIP $FAKEHOSTNAME >>/etc/hosts.new;
    /bin/mv /etc/hosts.new /etc/hosts;
    /sbin/route add -host $DSTIP gw $GW
-   if [[ "$CURGW" == "$GW" ]]; then
-      /sbin/route delete default
-   fi
    if [[ "$NOOPENWRT" == "" ]]; then
       if ! `test -f /usr/sbin/openvpn`; then
          cd /tmp;
@@ -78,6 +75,11 @@ else
       modprobe tun
       cd /etc/openvpn
       /usr/sbin/openvpn --config /etc/openvpn/vpn.priv.de.conf &
+   fi
+   if `test -f /usr/sbin/openvpn`; then
+      if [[ "$CURGW" == "$GW" ]]; then
+         /sbin/route delete default
+      fi
    fi
 fi
 
