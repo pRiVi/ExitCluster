@@ -2,11 +2,9 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 1. Configure your System to be able to access the internet, at best via DHCP. PPPOE is supported.
 
-2. Copy ResolvDns.sh to your TP-Link to /bin/. Run the following commands on the console:
+2. Copy ResolvDns.sh to your TP-Link to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
 
-# /bin/chmod +x /bin/ResolvDns.sh
-# /etc/init.d/cron start  # OpenWRT only
-# /etc/init.d/cron enable # OpenWRT only
+# /etc/init.d/cron enable
 
 3. Installation of OpenVPN
 
@@ -14,22 +12,100 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 # apt-get install openvpn
 
+You have to enable autostart in /etc/default/openvpn.
+
 3b) OpenWRT
 
-- With ROM > 4 MB:
+- With Flash >= 8 MB:
 
 # opkg update
-# opkg install openvpn
+# opkg install openvpn-openssl
 
-- With ROM < 4 MB:
+- With Flash < 8 MB:
 
-Via dynamic loading via SSH. Comming up soon...
+With 4 MB Flash you do not have enough persistent space on your device to run OpenVPN, so you have to download it dynamically from your local LAN or Internet to your absconding RAM. All for this has been already integrated into ResolvDns.sh if you are using OpenWRT 14.07, it should by itself download OpenVPN from the VPN server dynamically if you have not installed by yourself as described above.
+
+If you want or must created an tar.gz of your own, so see below 7a) to 7h). Otherwise you can use our 14.07 unchanged.
 
 4. Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/.
 
-5. Add the following to your crontab, running "crontab -e":
+5. Add the following to your crontab, running "crontab -e". You can find YOURTOLDVPNHOSTNAME it in your vpn.priv.de.conf file in the first line.
 
-* * * * * /bin/ResolvDns.sh YOURVPNHOSTNAME
+* * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
 
 6. Reboot & Enjoy.
+
+### Creation of tar.gz for dynamic loading of OpenVPN ###
+
+For creation of the OpenVPN tar.gz you need enough space on your OpenWRT to be able to create a installation you can copy. Cause you donnot have enough space on your system, you must use space from a remote system. This is possible via NFS. Cause you have not enouth space to install the NFS on your system, you have to install this via a trick to work around this.
+
+7a) Store the nfs userspace tool (mount.nfs) on external storage.
+
+You can jump to 7b, if you already have copied the files mentioned.
+
+Install NFS userspace tools via
+
+# opkg update
+# opkg install nfs-utils
+
+Copy /sbin/mount.nfs and /lib/librpc.so (for examble via SSH) to a remote server.
+
+Example:
+# scp /sbin/mount.nfs /lib/librpc.so 192.168.0.1:/data/
+
+Remove the NFS Userspacetools package via 
+
+# opkg --autoremove remove nfs-utils
+
+If you can you should reset your full flash and all configuration to free everything you can via "mtd -r erase rootfs_data". If you can not do this, may not enough is freed and you will stuck because of memory.
+
+7b) Install kernel support for NFS.
+
+# opkg update
+# opkg install kmod-fs-nfs
+
+7c) Copy stored userlevel files to /tmp and link them to system:
+
+Example:
+# scp 192.168.0.1:/data/mount.nfs 192.168.0.1:/data/librpc.so /tmp/
+
+# ln -s /tmp/mount.nfs /sbin/
+# ln -s /tmp/librpc.so /lib/
+
+7d) Mount NFS Share from remote storage to /mnt/nfsroot/
+
+# mkdir /mnt/nfsroot/
+# mount.nfs -o rw,nolock,tcp,v3 NFSSERVER:DATAPATH /mnt/nfsroot/
+
+Example:
+# mount.nfs -o rw,nolock,tcp,v3 192.168.0.1:/data/openwrt/ /mnt/nfsroot/
+
+7e) Overlay system with your NFS and jump into it:
+
+# mkdir /newroot
+# mount -o lowerdir=/,upperdir=/mnt/nfsroot/ -t overlayfs overlayfs:/mnt/nfsroot /newroot
+# for i in proc dev sys rom tmp; do mount --rbind /$i /newroot/$i; done
+# chroot /newroot
+
+7f) Install OpenVPN and whatever you want to. But be aware: You are wasting RAM of your OpenWRT!
+
+# opkg update
+# opkg install openvpn-openssl
+
+7g) Exit chroot and remove kernel modules for NFS, if you do not need 
+
+# exit
+# opkg --autoremove remove kmod-fs-nfs
+
+If you can you should reset your full flash and all configuration to free everything you can via "mtd -r erase rootfs_data". If you can not do this, may not enough is freed and you will stuck because of memory.
+
+7h) On NFS Server you can tar your OpenVPN:
+
+# cd /data/openwrt
+# tar -czvf ../openvpn.14.07.tar.gz *
+# scp ../openvpn.14.07.tar.gz YOURGW:/home/dynloader/
+
+7g) Create an sshkey on your OpenWRT, and enter the public part to /home/dynloader/.ssh/authorized_keys the following:
+
+command="cat ~/openvpn.14.07.tar.gz",no-pty,no-port-forwarding,no-x11-forwarding,no-agent-forwarding ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCH799uwlMwzAWOt/ZUF1Ml6wCFEL5xnNI4YDs8nVoMg2hav05WOQUDPyXHVwA3qhZ6Grx2avUkACcJisrqHk6Esyzq9+SwA+KSEyoWlAFfS83PL5JTDrjm094fHHakp93unpXSeekyJjh38d8POWi7uscr7TLw2sKF04ndC/H1W526/0u9Wl91yU1dC0OL/DmY+CuISnKTOTgcUDAgNcbgNNxboKJQ6GsJTGQprEcqPl0C3RFuIyaBATdtVnLGUEU6EJmuJ5IRkkr/pptc/6+28z3nF6jVMlEu46avdM3e8e/OHpkuOiNrvAh9QLW0tAZFn+W1OdjcqHeUtKcBpS4Z
 

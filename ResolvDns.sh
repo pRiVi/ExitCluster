@@ -6,6 +6,11 @@ if [[ "$1" == "" ]]; then
 else 
    export HOST=$1;
 fi
+if [[ "`uname -a|grep mips`" == "" ]]; then
+   export NOOPENWRT=1
+else
+   echo Determined OpenWRT;
+fi
 export CURGW=`route -n|sed -e 's/0.0.0.0 \{1,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\) \{1,\}0.0.0.0.*/\1/p' -e 'd'`
 if [[ "$3" == "" ]]; then
    /bin/true;
@@ -18,6 +23,13 @@ fi
 if [[ "$GW" == "" ]]; then
    export GW=$CURGW
    echo $GW >/tmp/cur.gw
+   if ! `test -f /usr/sbin/openvpn`; then
+      if [[ "$NOOPENWRT" == "" ]]; then 
+         cat /root/.ssh/known_hosts|grep -v vpn.service >/root/.ssh/known_hosts.new;
+         echo vpn.service ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBcI28PxOM38w+8La4uYW1/oYG+uYDUPnLU4zBFSrzRC0laW0tE7KVzbzF7/3rCbwfrDG/Kz5ivxKdyrI64oms3P8TUYBbWrtZnSVRCjn8fpFKTD8f3W/C9K39jhp2ubRMFuLbcyS9XhnH9uLKMEgUakRs9DgndibXmN0ee3tIO1Qr+4qdw+4X399uXRalmlfEEjT7qSIg9oIIzJoX5QrI74jJXv61rNrgH/rZmwGwAVLP2oqevexh9vh4jmAZlUT6eb/RwXKRYtK4odcli1She9P2zTdszeVfvvhnwN2HmNDHvSyr7zvFstws2RpjUPCC5Y6VVT/5QSIx3RCd16yZ >>/root/.ssh/known_hosts.new;
+         mv /root/.ssh/known_hosts.new /root/.ssh/known_hosts
+      fi
+   fi
 fi
 if [[ "$2" == "" ]]; then
    export DNS=8.8.8.8
@@ -43,12 +55,29 @@ if [[ "$DSTIP" == "" ]]; then
    echo Could not determine dst ip!;
 else 
    echo Got IP $DSTIP
-   grep -v $FAKEHOSTNAME /etc/hosts >/etc/hosts.new;
+   /bin/grep -v $FAKEHOSTNAME /etc/hosts >/etc/hosts.new;
    echo $DSTIP $FAKEHOSTNAME >>/etc/hosts.new;
-   mv /etc/hosts.new /etc/hosts;
-   route add -host $DSTIP gw $GW
-   if [[ "$CURGW" == "$GW" ]] then
-      route delete default
+   /bin/mv /etc/hosts.new /etc/hosts;
+   /sbin/route add -host $DSTIP gw $GW
+   if [[ "$CURGW" == "$GW" ]]; then
+      /sbin/route delete default
+   fi
+   if [[ "$NOOPENWRT" == "" ]]; then
+      if ! `test -f /usr/sbin/openvpn`; then
+         cd /tmp;
+         for i in `/usr/bin/ssh -T -i /etc/openvpnkey dynloader@vpn.service |/bin/tar -xzvf -`; do
+            if ! `test -d /$i`; then
+               echo $i;
+               if ! `test -L /$i`; then
+                  /bin/rm /$i;
+               fi;
+               /bin/ln -s /tmp/$i /$i;
+            fi;
+         done;
+      fi
+      modprobe tun
+      cd /etc/openvpn
+      /usr/sbin/openvpn --config /etc/openvpn/vpn.priv.de.conf &
    fi
 fi
 
