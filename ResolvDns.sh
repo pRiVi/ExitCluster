@@ -94,8 +94,8 @@ else
          done;
       fi
       modprobe tun
-      cd /etc/openvpn
-      /usr/sbin/openvpn --config /etc/openvpn/vpn.priv.de.conf &
    fi
+   cd /etc/openvpn
+   /usr/sbin/openvpn --config /etc/openvpn/vpn.priv.de.conf &
 fi
 
