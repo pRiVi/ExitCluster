@@ -8,13 +8,13 @@ Configure your system to be able to access the internet, at best via DHCP.
 
 The following screenshots are tested to have a working firewall config:
 
-<img src="screenshots/screenshot1.png" width="200" height="300">
+<img src="screenshots/screenshot1.png" width="200" height="191">
 
-[[screenshots/screenshot2.png|width=200px]]
+<img src="screenshots/screenshot2.png" width="200" height="191">
 
-[[screenshots/screenshot3.png|width=200px]]
+<img src="screenshots/screenshot1.png" width="209" height="200">
 
-[[screenshots/screenshot4.png|width=200px]]
+<img src="screenshots/screenshot1.png" width="209" height="200">
 
 ## Install needed files
 
