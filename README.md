@@ -11,6 +11,8 @@ The following screenshots are tested to have a working firewall config. You need
 ```
 iptables -I POSTROUTING -j MASQUERADE -t nat
 ```
+
+The traffic rules are neccesary to protect your internal lan against Tunnelusers.
   
 <img src="screenshots/screenshot1.png" width="200" height="191">
 <img src="screenshots/screenshot2.png" width="200" height="191">
