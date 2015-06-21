@@ -1,6 +1,6 @@
 #!/bin/sh
 if [[ "$1" == "" ]]; then
-   echo "ERROR: You have to give an hostname!";
+   echo "ERROR: You have to give a hostname!";
    echo "Syntax: $0 HOSTNAME [DNS] [GATEWAY] [FAKEHOSTNAME]";
    exit 1;
 else 
