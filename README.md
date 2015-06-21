@@ -6,7 +6,7 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 Configure your system to be able to access the internet, at best via DHCP.
 
-The following screenshots are tested to have a working firewall config:
+The following screenshots are tested to have a working firewall config. You need to manually force NAT via "iptables -I POSTROUTING -j MASQUERADE -t nat" on the Custom Filter.
 
 <img src="screenshots/screenshot1.png" width="200" height="191">
 <img src="screenshots/screenshot2.png" width="200" height="191">
