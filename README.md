@@ -62,13 +62,13 @@ mkdir /etc/openvpn
 
 ## Configure system
 
-Add the following to your crontab, running 
+Add the following to your crontab, running:
 
 ```sh
 crontab -e
 ```
 
-. You can find YOURTOLDVPNHOSTNAME in your vpn.priv.de.conf file in the first line.
+You can find YOURTOLDVPNHOSTNAME in your vpn.priv.de.conf file in the first line.
 
 ```
 * * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
