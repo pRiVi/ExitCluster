@@ -28,7 +28,9 @@ $ /etc/init.d/cron enable
 
 ### Debian:
 
+```sh
 $ apt-get install openvpn
+```
 
 You have to enable autostart in /etc/default/openvpn.
 
@@ -93,8 +95,10 @@ If you can you should reset your full flash and all configuration to free everyt
 
 ## Install kernel support for NFS.
 
-# opkg update
-# opkg install kmod-fs-nfs
+```sh
+$ opkg update
+$ opkg install kmod-fs-nfs
+´´´
 
 ## Copy stored userlevel files to /tmp and link them to system:
 
