@@ -84,13 +84,7 @@ else
       if ! `test -f /usr/sbin/openvpn`; then
          cd /tmp;
          for i in `/usr/bin/ssh -T -i /etc/openvpnkey dynloader@$FAKEHOSTNAME |/bin/tar -xzvf -`; do
-            if ! `test -d /$i`; then
-               echo $i;
-               if ! `test -L /$i`; then
-                  /bin/rm /$i;
-               fi;
-               /bin/ln -s /tmp/$i /$i;
-            fi;
+            if ! `test -d /$i`; then /bin/ln -s /tmp/$i /$i; fi;
          done;
       fi
       modprobe tun
