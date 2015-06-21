@@ -4,6 +4,16 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 Configure your system to be able to access the internet, at best via DHCP.
 
+The following screenshots are tested to have a working firewall config:
+
+![](screenshots/screenshot1.png)
+
+![](screenshots/screenshot2.png)
+
+![](screenshots/screenshot3.png)
+
+![](screenshots/screenshot4.png)
+
 2. Install needed files
 
 Copy ResolvDns.sh on your system to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
