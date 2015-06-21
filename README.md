@@ -67,11 +67,11 @@ For creation of the OpenVPN tar.gz you need enough space on your OpenWRT to be a
 
 You must be able to install a NFS server by yourself, this documentation do not cover that. Google might help you with "nfs howto".
 
-## Store the nfs userspace tool (mount.nfs) on external storage.
+## Extract NFS tools
 
-You can jump to 7b, if you already have copied the files mentioned.
+You can jump to next step, if you already have copied the files mentioned.
 
-Install NFS userspace tools via
+Store the nfs userspace tool (mount.nfs) on external storage. For this you have to temporary install them, fetch them, and then free the memory again. Install NFS userspace tools via
 
 ```sh
 $ opkg update
