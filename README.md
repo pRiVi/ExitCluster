@@ -1,4 +1,4 @@
-# VPN Tunnelinstallation for Exit Cluster
+# VPN exit cluster tunnel
 
 Currently support for debian (x86/arm) and OpenWRT.
 
