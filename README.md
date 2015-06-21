@@ -54,11 +54,21 @@ If you want or must created an tar.gz of your own, so see <a href="README.nfs.md
 
 ## Install config
 
-Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/. Create the folder it it do not exists with "mkdir /etc/openvpn".
+Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.de.crt) to /etc/openvpn/. Create the folder it it do not exists with 
+
+```sh
+mkdir /etc/openvpn
+```
 
 ## Configure system
 
-Add the following to your crontab, running "crontab -e". You can find YOURTOLDVPNHOSTNAME in your vpn.priv.de.conf file in the first line.
+Add the following to your crontab, running 
+
+```sh
+crontab -e
+```
+
+. You can find YOURTOLDVPNHOSTNAME in your vpn.priv.de.conf file in the first line.
 
 ```
 * * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
