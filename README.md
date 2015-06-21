@@ -26,7 +26,7 @@ $ /etc/init.d/cron enable
 
 ## Installation of OpenVPN
 
-### Debian:
+### Debian
 
 ```sh
 $ apt-get install openvpn
