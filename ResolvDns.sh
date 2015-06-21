@@ -43,10 +43,8 @@ else
 fi
 
 if ! `test -f /tmp/firstrun`; then
-   if ! `test -f /usr/sbin/openvpn`; then
-      if [[ "$NOOPENWRT" == "" ]]; then
-         /usr/sbin/ntpd -p $FAKEHOSTNAME
-      fi
+   if [[ "$NOOPENWRT" == "" ]]; then
+      /usr/sbin/ntpd -p $FAKEHOSTNAME
    fi
    touch /tmp/firstrun;
 fi
