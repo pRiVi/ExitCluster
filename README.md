@@ -54,7 +54,9 @@ Copy your OpenVPN Config (vpn.priv.de.conf, client.crt, client.key and vpn.priv.
 
 Add the following to your crontab, running "crontab -e". You can find YOURTOLDVPNHOSTNAME in your vpn.priv.de.conf file in the first line.
 
+```
 * * * * * /bin/sh /bin/ResolvDns.sh YOURTOLDVPNHOSTNAME
+```
 
 ## Reboot & Enjoy.
 
