@@ -59,14 +59,16 @@ if [[ "$GW" == "" ]]; then
    echo "Could not determine your gateway!"
    exit 2;
 else
-   echo "GW=$GW DNS=$DNS HOST=$HOST";
-   route add -host $DNS gw $GW;
-   for i in 0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org; do
-      for j in `nslookup $i $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd' | tr "\n"`; do
-         echo route add -host $j gw $GW;
-         route add -host $j gw $GW;
+   if [[ "$NOOPENWRT" == "" ]]; then
+      echo "GW=$GW DNS=$DNS HOST=$HOST";
+      route add -host $DNS gw $GW;
+      for i in 0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org; do
+         for j in `nslookup $i $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd' | tr "" "\n"`; do
+            echo route add -host $j gw $GW;
+            route add -host $j gw $GW;
+         done
       done
-   done
+   fi
 fi
 export DSTIP=`nslookup $HOST $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
 if [[ "$DSTIP" == "" ]]; then 
