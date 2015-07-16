@@ -59,7 +59,7 @@ if [[ "$GW" == "" ]]; then
    echo "Could not determine your gateway!"
    exit 2;
 else
-   route add -host $DNS gw $GW;
+   /sbin/route add -host $DNS gw $GW;
    if [[ "$NOOPENWRT" == "" ]]; then
       echo "GW=$GW DNS=$DNS HOST=$HOST";
       for i in 0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org; do
