@@ -70,10 +70,21 @@ else
       #done
    fi
 fi
-export DSTIP=`nslookup $HOST $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
+export DIRECTDNS=`nslookup dns.priv.de $DNS|sed -e "/$DNS/d" -e 's/Address.*1: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
+if [[ "$DIRECTDNS" == "" ]]; then
+   echo Could not determine dns dst ip for dns.priv.de!;
+else
+   echo "Using DIRECTDNS via $DIRECTDNS";
+   route add -host $DIRECTDNS gw $GW;
+fi
+echo "GW=$GW DNS=$DNS DIRECTDNS=$DIRECTDNS HOST=$HOST";
+export DSTIP=`nslookup $HOST $DIRECTDNS|sed -e "/$DIRECTDNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
+if [[ "$DSTIP" == "" ]]; then
+   export DSTIP=`nslookup $HOST $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
+fi
 if [[ "$DSTIP" == "" ]]; then 
-   echo Could not determine dst ip!;
-else 
+   echo Could not determine dst ip for $HOST!;
+else
    echo Got IP $DSTIP
    /bin/grep -v $FAKEHOSTNAME /etc/hosts >/etc/hosts.new;
    echo $DSTIP $FAKEHOSTNAME >>/etc/hosts.new;
