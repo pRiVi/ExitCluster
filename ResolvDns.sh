@@ -103,6 +103,16 @@ else
       modprobe tun
    fi
    cd /etc/openvpn
+   if [[ "$DSTIP" == "`cat /tmp/dstip`" ]]; then
+      echo "No IP change: $DSTIP.";
+   else
+      echo "IP Changed from `cat /tmp/dstip` to $DSTIP! Killing openvpn...";
+      killall openvpn;
+      sleep 5;
+      killall -9 openvpn;
+      sleep 5;
+   fi
+   echo $DSTIP >/tmp/dstip;
    /usr/sbin/openvpn --config /etc/openvpn/vpn.priv.de.conf &
 fi
 
