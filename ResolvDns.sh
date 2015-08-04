@@ -69,7 +69,7 @@ else
       #done
    fi
 fi
-export DIRECTDNS=`nslookup dns.priv.de $DNS|sed -e "/$DNS/d" -e 's/Address.*1: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
+export DIRECTDNS=`nslookup dns.priv.de $DNS|sed -e "/$DNS/d" -e 's/Address.*[0-9]\{0,\}: \{0,\}\([0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}\).*/\1/p' -e 'd'`
 if [[ "$DIRECTDNS" == "" ]]; then
    echo Could not determine dns dst ip for dns.priv.de!;
 else
