@@ -36,7 +36,7 @@ $ /etc/init.d/cron enable
 ### Debian
 
 ```sh
-$ apt-get install openvpn
+$ apt-get install openvpn dnsutils
 ```
 
 You have to enable autostart in /etc/default/openvpn.
