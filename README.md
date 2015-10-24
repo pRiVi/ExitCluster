@@ -25,13 +25,9 @@ The traffic rules are neccesary to protect your internal LAN against tunnel user
 
 ## Install needed files
 
-Copy ResolvDns.sh on your system to /bin/ and openvpnkey to /etc/. If you use OpenWRT you have to enable cron the following way:
+Extract all files (ResolvDns.sh, openvpnkey, ...) from the downloaded .tar.gz to /etc/openvpn/.
 
-```sh
-$ /etc/init.d/cron enable
-```
-
-## Installation of OpenVPN
+## Installation
 
 ### Debian
 
@@ -42,6 +38,12 @@ $ apt-get install openvpn dnsutils
 You have to enable autostart in /etc/default/openvpn.
 
 ### OpenWRT
+
+If you use OpenWRT, you have in any way enable cron the following way:
+
+```sh
+$ /etc/init.d/cron enable
+```
 
 #### With Flash >= 8 MB:
 
