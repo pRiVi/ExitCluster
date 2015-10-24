@@ -4,7 +4,7 @@ Currently support for debian (x86/arm) and OpenWRT.
 
 ## Get Account
 
-Register on https://priv.de/ a new certificate, and mail to freifunk2015@priv.de to get a new certificate generated and there uploaded.
+Register on https://conf.priv.de/ a new certificate, and mail to freifunk2015@priv.de to get a new certificate generated and there uploaded.
 
 ## Base config
 
