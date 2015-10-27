@@ -85,9 +85,9 @@ if [[ "$DSTIP" == "" ]]; then
    echo Could not determine dst ip for $HOST!;
 else
    echo Got IP $DSTIP
-   /bin/grep -v $FAKEHOSTNAME /etc/hosts >/etc/hosts.new;
-   echo $DSTIP $FAKEHOSTNAME >>/etc/hosts.new;
-   /bin/mv /etc/hosts.new /etc/hosts;
+   /bin/grep -v $FAKEHOSTNAME /etc/hosts >/tmp/hosts.new;
+   echo $DSTIP $FAKEHOSTNAME >>/tmp/hosts.new;
+   /bin/cat /tmp/hosts.new >/etc/hosts;
    /sbin/route add -host $DSTIP gw $GW
    if [[ "$CURGW" == "$GW" ]]; then
       /sbin/route delete default
