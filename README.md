@@ -32,10 +32,12 @@ Extract all files (ResolvDns.sh, openvpnkey, ...) from the downloaded .tar.gz to
 ### Debian
 
 ```sh
-$ apt-get install openvpn dnsutils
+$ apt-get install openvpn dnsutils psmisc
 ```
 
 You have to enable autostart in /etc/default/openvpn.
+
+If you have a read-only rootfs, you must create a link from /etc/hosts to /tmp/hosts or make /etc/hosts writeable in any other way.
 
 ### OpenWRT
 
